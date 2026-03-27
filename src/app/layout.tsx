@@ -23,6 +23,9 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Aaditya | Cybersecurity Portfolio",
   description: "3rd year CS student. Security researcher, CTF player, and aspiring penetration tester.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
