@@ -5,12 +5,11 @@ import { motion } from "framer-motion";
 
 const EXPERIENCES = [
     {
-        title: "EY DSCI National CTF Hackathon - Top 40 out of 150+ teams",
-        organization: "EY DSCI",
-        date: "December 2025",
-        description: "Led a 2-person team through 8 straight hours of AD exploitation, binary reversing, and some genuinely evil forensics challenges.",
-        // FLAG-03 clue: ROT13 encoded flag hidden as a faint cipher beside the date
-        cipherHint: "SYNT{e0g_gu3_j0eyq}",
+        title: "MythX",
+        organization: "MythX",
+        date: "April 2026",
+        description: "Happening",
+        cipherHint: null,
     },
     {
         title: "CREST CTF 2026",
@@ -20,12 +19,14 @@ const EXPERIENCES = [
         cipherHint: null,
     },
     {
-        title: "MythX",
-        organization: "MythX",
-        date: "April 2026",
-        description: "",
-        cipherHint: null,
+        title: "EY DSCI National CTF Hackathon - Top 40 out of 150+ teams",
+        organization: "EY DSCI",
+        date: "December 2025",
+        description: "Led a 2-person team through 8 straight hours of AD exploitation, binary reversing, and some genuinely evil forensics challenges.",
+        // FLAG-03 clue: ROT13 encoded flag hidden as a faint cipher beside the date
+        cipherHint: "SYNT{e0g_gu3_j0eyq}",
     }
+
 ];
 
 export const Experience = () => {
