@@ -153,38 +153,41 @@ const CornerAccents = () => (
     </>
 );
 
-/* ─────────────────────────────────────────────
-   Dummy QR SVG Generator (Placeholder aesthetic)
-───────────────────────────────────────────── */
-const DummyCyberQR = () => (
-    <svg viewBox="0 0 33 33" shapeRendering="crispEdges" className="w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] opacity-90 drop-shadow-sm">
-        {/* Top Left Eye */}
-        <path fill="black" d="M3 3h7v7H3zM4 4v5h5V4zM5 5h3v3H5z" />
-        {/* Top Right Eye */}
-        <path fill="black" d="M23 3h7v7h-7zM24 4v5h5V4zM25 5h3v3h-3z" />
-        {/* Bottom Left Eye */}
-        <path fill="black" d="M3 23h7v7H3zM4 24v5h5v-5zM5 25h3v3H5z" />
-        {/* Random dots to simulate QR grid pattern */}
-        <path fill="black" d="M12 3h2v2h-2z M15 3h1v1h-1z M17 4h3v1h-3z M21 6h1v2h-1z M13 8h4v1h-4z M19 9h3v2h-3z M3 12h2v4H3z M6 13h1v1H6z M8 12h2v3H8z M12 11h9v9h-9z M13 12v7h7v-7z M14 13h5v5h-5z M23 12h2v2h-2z M27 13h4v1h-4z M25 15h3v3h-3z M29 17h1v4h-1z M8 17h3v2H8z M4 19h2v2H4z M12 21h3v2h-3z M16 22h1v1h-1z M18 21h4v2h-4z M23 21h2v3h-2z M27 20h3v1h-3z M26 23h4v2h-4z M25 27h2v2h-2z M28 26h2v4h-2z M12 25h2v3h-2z M15 24h3v4h-3z M19 25h1v1h-1z M20 27h3v2h-3z M15 18h2v2h-2z M19 16h2v3h-2z" />
-    </svg>
-);
 
-/* ─────────────────────────────────────────────
-   Main export
-───────────────────────────────────────────── */
 export const BuyMeCoffee = () => {
     const [hovered, setHovered] = useState(false);
     const [copied, setCopied] = useState(false);
 
-    // Glich text for the Mobile Deep Link Button
     const mobileBtnLabel = useGlitchText("PAY_VIA_UPI", hovered);
 
-    const upiId = "9467854399@ptsbi"; // Replace closely with real UPI
+    const upiId = "9467854399@ptsbi";
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(upiId);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+    const handleCopy = async () => {
+        try {
+            if (navigator?.clipboard?.writeText) {
+                await navigator.clipboard.writeText(upiId);
+            } else {
+                // Fallback for non-secure contexts (like testing on local network IP)
+                const textArea = document.createElement("textarea");
+                textArea.value = upiId;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                textArea.style.top = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Fallback copy failed', err);
+                }
+                textArea.remove();
+            }
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (error) {
+            console.error("Copy failed", error);
+        }
     };
 
     return (
@@ -278,11 +281,40 @@ export const BuyMeCoffee = () => {
                                         <span className="text-white text-sm tracking-wider">{upiId}</span>
                                     </div>
                                     <div className="w-[1px] h-8 bg-white/10 mx-2 hidden sm:block"></div>
-                                    <div className="flex items-center justify-center w-8 h-8 rounded border border-white/5 group-hover:bg-neon-amber/10 transition-colors">
-                                        <AnimatePresence mode="popLayout">
+                                    <div className="hidden sm:flex items-center justify-center h-8 px-3 rounded border border-white/5 group-hover:border-neon-amber/30 group-hover:bg-neon-amber/10 transition-colors">
+                                        <AnimatePresence mode="wait">
                                             {copied ? (
                                                 <motion.div
                                                     key="check"
+                                                    initial={{ y: 10, opacity: 0 }}
+                                                    animate={{ y: 0, opacity: 1 }}
+                                                    exit={{ y: -10, opacity: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className="flex items-center gap-2"
+                                                >
+                                                    <FaCheck size={12} className="text-neon-amber" />
+                                                    <span className="text-[10px] font-mono text-neon-amber tracking-wider uppercase">Copied</span>
+                                                </motion.div>
+                                            ) : (
+                                                <motion.div
+                                                    key="copy"
+                                                    initial={{ y: -10, opacity: 0 }}
+                                                    animate={{ y: 0, opacity: 1 }}
+                                                    exit={{ y: 10, opacity: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className="flex items-center gap-2 text-gray-400 group-hover:text-neon-amber"
+                                                >
+                                                    <FaCopy size={12} className="transition-colors" />
+                                                    <span className="text-[10px] font-mono transition-colors tracking-wider uppercase">Copy</span>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                    <div className="flex sm:hidden items-center justify-center w-8 h-8 rounded border border-white/5 group-hover:bg-neon-amber/10 transition-colors">
+                                        <AnimatePresence mode="wait">
+                                            {copied ? (
+                                                <motion.div
+                                                    key="check-mobile"
                                                     initial={{ scale: 0.5, opacity: 0 }}
                                                     animate={{ scale: 1, opacity: 1 }}
                                                     exit={{ scale: 0.5, opacity: 0 }}
@@ -292,7 +324,7 @@ export const BuyMeCoffee = () => {
                                                 </motion.div>
                                             ) : (
                                                 <motion.div
-                                                    key="copy"
+                                                    key="copy-mobile"
                                                     initial={{ scale: 0.5, opacity: 0 }}
                                                     animate={{ scale: 1, opacity: 1 }}
                                                     exit={{ scale: 0.5, opacity: 0 }}
@@ -338,22 +370,15 @@ export const BuyMeCoffee = () => {
                                 {/* White container for QR Code */}
                                 <div className="p-2 sm:p-3 bg-white relative z-0 m-1 rounded-lg">
 
-                                    {/* Placeholder SVG */}
-                                    <DummyCyberQR />
-
-                                    {/* NOTE: You can un-comment and map this directly to an image of your QR Code
-                                            Just drop `upi-qr.png` in the `public` folder of your repo. 
-                                            
-                                        <div className="w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] relative">
-                                            <Image 
-                                                src="/upi-qr.png" 
-                                                alt="UPI QR Code" 
-                                                fill 
-                                                className="object-cover"
-                                                sizes="(max-width: 640px) 120px, 140px"
-                                            />
-                                        </div>
-                                    */}
+                                    <div className="w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] relative">
+                                        <Image
+                                            src="/QRcode.jpeg"
+                                            alt="UPI QR Code"
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 640px) 120px, 140px"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
