@@ -7,6 +7,7 @@ import { Education } from "@/components/Education";
 import { Certifications } from "@/components/Certifications";
 import { Methodology } from "@/components/Methodology";
 import { Contact } from "@/components/Contact";
+import { BuyMeCoffee } from "@/components/BuyMeCoffee";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <Education />
       <Certifications />
       <Methodology />
+      <BuyMeCoffee />
       <Contact />
     </main>
   );
