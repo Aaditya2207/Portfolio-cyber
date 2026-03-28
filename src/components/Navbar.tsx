@@ -16,6 +16,7 @@ const NAV_LINKS = [
 export const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [showBanner, setShowBanner] = useState(true);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -51,23 +52,59 @@ export const Navbar = () => {
         <>
             <motion.header
                 className={cn(
-                    "fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent",
-                    scrolled ? "glass border-white/10 py-3 md:py-4 shadow-[0_4px_30px_rgba(0,0,0,0.5)]" : "bg-transparent py-4 md:py-6"
+                    "fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent flex flex-col",
+                    scrolled ? "glass border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)]" : "bg-transparent"
                 )}
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-                    {/* Logo */}
-                    <a href="#" onClick={(e) => scrollToHash(e, "#hero")} className="group flex items-center gap-1.5 font-mono text-lg sm:text-xl font-bold tracking-tighter text-white z-50 flex-shrink-0">
-                        <span className="text-neon-blue opacity-50 group-hover:opacity-100 transition-opacity">{"<"}</span>
-                        <span className="relative">
-                            AK
-                            <span className="absolute -inset-1 bg-neon-blue/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                        </span>
-                        <span className="text-neon-blue opacity-50 group-hover:opacity-100 transition-opacity">{"/>"}</span>
-                    </a>
+                {/* CTF Banner */}
+                <AnimatePresence>
+                    {showBanner && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="w-full bg-neon-blue/5 border-b border-neon-blue/20 overflow-hidden backdrop-blur-sm relative"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neon-blue/10 to-transparent animate-pulse opacity-50 pointer-events-none" />
+                            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-2 md:py-2.5 flex items-center justify-between text-xs md:text-sm font-mono text-gray-300 relative z-10">
+                                <div className="flex items-center gap-2 sm:gap-4 overflow-hidden">
+                                    <span className="hidden sm:flex items-center justify-center bg-neon-blue/20 text-neon-blue px-2 py-0.5 rounded text-[10px] font-bold border border-neon-blue/30 tracking-widest shrink-0 shadow-[0_0_10px_rgba(0,255,255,0.2)]">
+                                        SYSTEM_ALERT
+                                    </span>
+                                    <span className="truncate">
+                                        <span className="text-neon-blue">[{">_"}]</span> A <span className="text-white font-medium drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">Capture The Flag (CTF)</span> simulation is active. Access the terminal to join the game.
+                                    </span>
+                                </div>
+                                <button
+                                    onClick={() => setShowBanner(false)}
+                                    className="text-gray-500 hover:text-neon-blue transition-colors p-1 ml-4 sm:ml-6 flex-shrink-0 flex items-center gap-1 hover:bg-neon-blue/10 rounded"
+                                    aria-label="Dismiss banner"
+                                >
+                                    <span className="hidden sm:inline text-[10px] tracking-wider">DISMISS</span>
+                                    <span>✕</span>
+                                </button>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                <div className={cn(
+                    "w-full transition-all duration-300",
+                    scrolled ? "py-3 md:py-4" : "py-4 md:py-6"
+                )}>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+                        {/* Logo */}
+                        <a href="#" onClick={(e) => scrollToHash(e, "#hero")} className="group flex items-center gap-1.5 font-mono text-lg sm:text-xl font-bold tracking-tighter text-white z-50 flex-shrink-0">
+                            <span className="text-neon-blue opacity-50 group-hover:opacity-100 transition-opacity">{"<"}</span>
+                            <span className="relative">
+                                AK
+                                <span className="absolute -inset-1 bg-neon-blue/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            </span>
+                            <span className="text-neon-blue opacity-50 group-hover:opacity-100 transition-opacity">{"/>"}</span>
+                        </a>
 
                     {/* Desktop Nav */}
                     <nav className="hidden md:flex items-center gap-6 lg:gap-8">
@@ -84,26 +121,27 @@ export const Navbar = () => {
                         ))}
                     </nav>
 
-                    {/* Mobile Hamburger */}
-                    <button
-                        className="md:hidden relative z-50 flex flex-col items-center justify-center w-10 h-10 gap-[6px] group"
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        aria-label="Toggle Menu"
-                        aria-expanded={mobileMenuOpen}
-                    >
-                        <span className={cn(
-                            "block w-6 h-[1.5px] bg-gray-300 transition-all duration-300 origin-center",
-                            mobileMenuOpen ? "rotate-45 translate-y-[7.5px]" : ""
-                        )}></span>
-                        <span className={cn(
-                            "block w-6 h-[1.5px] bg-gray-300 transition-all duration-300",
-                            mobileMenuOpen ? "opacity-0 scale-x-0" : ""
-                        )}></span>
-                        <span className={cn(
-                            "block w-6 h-[1.5px] bg-gray-300 transition-all duration-300 origin-center",
-                            mobileMenuOpen ? "-rotate-45 -translate-y-[7.5px]" : ""
-                        )}></span>
-                    </button>
+                        {/* Mobile Hamburger */}
+                        <button
+                            className="md:hidden relative z-50 flex flex-col items-center justify-center w-10 h-10 gap-[6px] group"
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            aria-label="Toggle Menu"
+                            aria-expanded={mobileMenuOpen}
+                        >
+                            <span className={cn(
+                                "block w-6 h-[1.5px] bg-gray-300 transition-all duration-300 origin-center",
+                                mobileMenuOpen ? "rotate-45 translate-y-[7.5px]" : ""
+                            )}></span>
+                            <span className={cn(
+                                "block w-6 h-[1.5px] bg-gray-300 transition-all duration-300",
+                                mobileMenuOpen ? "opacity-0 scale-x-0" : ""
+                            )}></span>
+                            <span className={cn(
+                                "block w-6 h-[1.5px] bg-gray-300 transition-all duration-300 origin-center",
+                                mobileMenuOpen ? "-rotate-45 -translate-y-[7.5px]" : ""
+                            )}></span>
+                        </button>
+                    </div>
                 </div>
             </motion.header>
 
