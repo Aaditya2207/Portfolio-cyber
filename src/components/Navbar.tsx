@@ -8,7 +8,7 @@ const NAV_LINKS = [
     { name: "About", href: "#about" },
     { name: "Skills", href: "#tools" },
     { name: "Projects", href: "#projects" },
-    { name: "Experience", href: "#experience" },
+    { name: "CTF Competitions", href: "#experience" },
     { name: "Education", href: "#education" },
     { name: "Contact", href: "#contact" },
 ];

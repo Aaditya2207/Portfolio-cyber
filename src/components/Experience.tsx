@@ -42,10 +42,10 @@ export const Experience = () => {
                     className="mb-12 sm:mb-16 md:mb-24 flex flex-col items-center text-center mt-8 sm:mt-12"
                 >
                     <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-neon-blue/30 bg-neon-blue/5 backdrop-blur-sm mb-4 sm:mb-6">
-                        <span className="text-neon-blue font-mono text-[10px] sm:text-xs tracking-widest uppercase">History</span>
+                        <span className="text-neon-blue font-mono text-[10px] sm:text-xs tracking-widest uppercase">CTF Competitions</span>
                     </div>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-white tracking-tight">
-                        What I&apos;ve <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-indigo">Been Up To</span>
+                        Competitions I&apos;ve <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-indigo">Competed In</span>
                     </h2>
                 </motion.div>
 
