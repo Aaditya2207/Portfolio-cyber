@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 const EXPERIENCES = [
     {
         title: "MythX",
-        organization: "MythX",
+        organization: "KIET Group of Institutions",
         date: "April 2026",
-        description: "Happening",
+        description: "Secured a position in the top 60 out of 250+ teams in a 24-hour national-level CTF competition, tackling real-world challenges across web security, network security, OSINT, cryptography, steganography, reverse engineering, and digital forensics in a team of up to four members.",
         cipherHint: null,
     },
     {
