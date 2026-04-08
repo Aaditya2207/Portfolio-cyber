@@ -10,17 +10,18 @@ interface Line {
 }
 
 const BANNER = [
-    "    ______ ______ ______",
-    "   / ____//_  __// ____/",
-    "  / /      / /  / /_    ",
-    " / /___   / /  / __/    ",
-    " \\____/  /_/  /_/       ",
+    "  ______   ______   ______",
+    " / ____/  /_  __/  / ____/",
+    "/ /         / /    / /_    ",
+    "/ /___      / /    / __/   ",
+    "\\____/     /_/    /_/      ",
     "",
     " Capture The Flag — Portfolio Edition",
-    " Type 'help' to see available commands.",
-    " Type 'hint <1-5>' for a challenge hint.",
-    " Type 'solve <1-5>' to reveal a solution.",
-    "─────────────────────────────────────────",
+    " ------------------------------------",
+    " Type 'help'       → commands",
+    " Type 'hint <1-5>' → get a hint",
+    " Type 'solve <1-5>'→ show solution",
+    " ------------------------------------",
 ];
 
 function rot13(str: string): string {
