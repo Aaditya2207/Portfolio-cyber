@@ -5,23 +5,27 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCTF, CHALLENGES } from "@/contexts/CTFContext";
 
 interface Line {
-    type: "command" | "output" | "error" | "success" | "info" | "flag";
+    type: "command" | "output" | "error" | "success" | "info" | "flag" | "system" | "ascii";
     text: string;
 }
 
-const BANNER = [
-    "  ______   ______   ______",
-    " / ____/  /_  __/  / ____/",
-    "/ /         / /    / /_    ",
-    "/ /___      / /    / __/   ",
-    "\\____/     /_/    /_/      ",
-    "",
-    " Capture The Flag — Portfolio Edition",
-    " ------------------------------------",
-    " Type 'help'       → commands",
-    " Type 'hint <1-5>' → get a hint",
-    " Type 'solve <1-5>'→ show solution",
-    " ------------------------------------",
+const BANNER_LINES: Line[] = [
+    { type: "ascii", text: "   ______  _______  ______" },
+    { type: "ascii", text: "  / ____/ /_  __/  / ____/" },
+    { type: "ascii", text: " / /       / /    / /_    " },
+    { type: "ascii", text: "/ /___    / /    / __/    " },
+    { type: "ascii", text: "\\____/   /_/    /_/       " },
+    { type: "info", text: "" },
+    { type: "system", text: " [ SYSTEM BOOT ] ... OK" },
+    { type: "system", text: " [ MODULE CTF  ] ... ONLINE" },
+    { type: "info", text: " ──────────────────────────────────────────────" },
+    { type: "flag", text: "  Capture The Flag — Portfolio Edition" },
+    { type: "info", text: " ──────────────────────────────────────────────" },
+    { type: "info", text: "  COMMAND          DESCRIPTION" },
+    { type: "info", text: "  help             Show available commands" },
+    { type: "info", text: "  hint <1-5>       Get a challenge hint" },
+    { type: "info", text: "  solve <1-5>      Reveal the solution" },
+    { type: "info", text: " ──────────────────────────────────────────────" },
 ];
 
 function rot13(str: string): string {
@@ -42,7 +46,7 @@ function fromBase64(str: string): string {
 export const CTFTerminal = () => {
     const { capturedFlags, captureFlag, isCaptured, terminalOpen, setTerminalOpen, totalPoints } = useCTF();
     const [input, setInput] = useState("");
-    const [lines, setLines] = useState<Line[]>(BANNER.map(t => ({ type: "info", text: t })));
+    const [lines, setLines] = useState<Line[]>(BANNER_LINES);
     const [history, setHistory] = useState<string[]>([]);
     const [historyIndex, setHistoryIndex] = useState(-1);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -267,6 +271,8 @@ export const CTFTerminal = () => {
         success: "text-green-400",
         info: "text-gray-400",
         flag: "text-neon-blue font-bold",
+        system: "text-yellow-400/90",
+        ascii: "text-neon-blue font-bold",
     };
 
     return (
@@ -303,14 +309,14 @@ export const CTFTerminal = () => {
                         />
 
                         {/* Terminal Window */}
-                        <motion.div
-                            initial={{ y: "100%", opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: "100%", opacity: 0 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 35 }}
-                            className="fixed bottom-0 left-0 right-0 z-[70] h-[60vh] sm:h-[65vh] border-t border-neon-blue/30 shadow-[0_-10px_60px_rgba(0,240,255,0.15)] flex flex-col"
-                            style={{ background: "rgba(3,3,5,0.97)" }}
-                        >
+                        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6 sm:pb-20 pointer-events-none">
+                            <motion.div
+                                initial={{ y: 50, opacity: 0, scale: 0.95 }}
+                                animate={{ y: 0, opacity: 1, scale: 1 }}
+                                exit={{ y: 30, opacity: 0, scale: 0.95 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                className="w-full max-w-4xl h-[70vh] sm:h-[75vh] bg-[#030305]/95 backdrop-blur-xl border border-neon-blue/30 rounded-xl shadow-[0_10px_70px_rgba(0,240,255,0.15)] flex flex-col overflow-hidden pointer-events-auto"
+                            >
                             {/* Title Bar */}
                             <div className="flex items-center justify-between px-4 sm:px-6 py-2 sm:py-3 border-b border-white/5 bg-white/[0.02] flex-shrink-0">
                                 <div className="flex items-center gap-2 sm:gap-3">
@@ -334,9 +340,9 @@ export const CTFTerminal = () => {
                             </div>
 
                             {/* Output */}
-                            <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-3 sm:py-4 space-y-0.5 font-mono text-[10px] sm:text-xs scroll-smooth">
+                            <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-3 sm:py-4 space-y-0 font-mono text-[10px] sm:text-[11.5px] scroll-smooth">
                                 {lines.map((line, i) => (
-                                    <div key={i} className={`leading-relaxed whitespace-pre-wrap break-all ${lineColors[line.type]}`}>
+                                    <div key={i} className={`leading-snug whitespace-pre sm:whitespace-pre-wrap ${lineColors[line.type]}`}>
                                         {line.text}
                                     </div>
                                 ))}
@@ -366,6 +372,7 @@ export const CTFTerminal = () => {
                                 </button>
                             </div>
                         </motion.div>
+                        </div>
                     </>
                 )}
             </AnimatePresence>

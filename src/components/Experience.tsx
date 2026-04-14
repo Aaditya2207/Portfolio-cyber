@@ -8,7 +8,7 @@ const EXPERIENCES = [
         title: "MythX",
         organization: "KIET Group of Institutions",
         date: "April 2026",
-        description: "Secured a position in the top 60 out of 250+ teams in a 24-hour national-level CTF competition, tackling real-world challenges across web security, network security, OSINT, cryptography, steganography, reverse engineering, and digital forensics in a team of up to four members.",
+        description: "Achieved an outstanding 9th position in the offline final round of a national-level 24-hour Capture The Flag (CTF) competition, held at KIET College campus, demonstrating advanced technical skills and teamwork under high-pressure conditions.",
         cipherHint: null,
     },
     {
