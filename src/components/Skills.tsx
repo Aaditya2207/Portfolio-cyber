@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { useCTF } from "@/contexts/CTFContext";
 import {
     FaPython, FaRust, FaJs, FaNetworkWired, FaServer,
     FaLinux, FaAws, FaShieldAlt, FaTerminal, FaCodeBranch
@@ -43,6 +44,28 @@ const SKILL_CATEGORIES = [
 ];
 
 export const Skills = () => {
+    const { captureFlag, isCaptured } = useCTF();
+    const flag6 = "FLAG{sk1lls_4_d4yz}";
+    const clickCount = useRef(0);
+    const [clickProgress, setClickProgress] = useState(0);
+    const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const handlePenTestClick = () => {
+        if (isCaptured(flag6)) return;
+        clickCount.current += 1;
+        setClickProgress(clickCount.current);
+        if (resetTimer.current) clearTimeout(resetTimer.current);
+        if (clickCount.current >= 5) {
+            captureFlag(flag6);
+            clickCount.current = 0;
+            setClickProgress(0);
+        } else {
+            resetTimer.current = setTimeout(() => {
+                clickCount.current = 0;
+                setClickProgress(0);
+            }, 3000);
+        }
+    };
     return (
         <section id="tools" className="py-20 sm:py-24 md:py-32 relative z-10 w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,19 +110,41 @@ export const Skills = () => {
                                     </div>
 
                                     <div className={`grid gap-3 sm:gap-4 ${category.colSpan.includes("col-span-3") ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5" : "grid-cols-2"}`}>
-                                        {category.skills.map((skill) => (
-                                            <div
-                                                key={skill.name}
-                                                className="flex flex-col items-center justify-center gap-2 sm:gap-3 p-3 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl bg-dark-bg/40 border border-white/5 hover:bg-white/5 hover:border-neon-blue/20 transition-all duration-300 group/item cursor-default"
-                                            >
-                                                <div className="text-2xl sm:text-3xl text-gray-500 group-hover/item:text-neon-blue transition-colors duration-300 transform group-hover/item:scale-110">
-                                                    {skill.icon}
+                                        {category.skills.map((skill) => {
+                                            const isPenTest = skill.name === "Pen Testing";
+                                            const captured6 = isCaptured(flag6);
+                                            return (
+                                                <div
+                                                    key={skill.name}
+                                                    onClick={isPenTest ? handlePenTestClick : undefined}
+                                                    className={`flex flex-col items-center justify-center gap-2 sm:gap-3 p-3 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl bg-dark-bg/40 border transition-all duration-300 group/item relative overflow-hidden
+                                                        ${isPenTest
+                                                            ? captured6
+                                                                ? "border-neon-blue/50 bg-neon-blue/10 cursor-pointer shadow-[0_0_15px_rgba(0,240,255,0.2)]"
+                                                                : "border-white/5 hover:bg-white/5 hover:border-neon-blue/40 cursor-pointer"
+                                                            : "border-white/5 hover:bg-white/5 hover:border-neon-blue/20 cursor-default"
+                                                        }`}
+                                                    title={isPenTest && !captured6 ? `Click ${5 - clickProgress} more time${5 - clickProgress !== 1 ? 's' : ''} to unlock...` : undefined}
+                                                >
+                                                    {isPenTest && !captured6 && clickProgress > 0 && (
+                                                        <div className="absolute top-1 right-1 font-mono text-[8px] text-neon-blue/60 tracking-widest">
+                                                            {clickProgress}/5
+                                                        </div>
+                                                    )}
+                                                    {isPenTest && captured6 && (
+                                                        <div className="absolute top-1 right-1 font-mono text-[8px] text-neon-blue tracking-widest">
+                                                            ✓
+                                                        </div>
+                                                    )}
+                                                    <div className={`text-2xl sm:text-3xl transition-colors duration-300 transform group-hover/item:scale-110 ${captured6 && isPenTest ? 'text-neon-blue' : 'text-gray-500 group-hover/item:text-neon-blue'}`}>
+                                                        {skill.icon}
+                                                    </div>
+                                                    <span className="text-[10px] sm:text-xs font-mono text-gray-400 group-hover/item:text-white text-center tracking-wider leading-tight">
+                                                        {skill.name}
+                                                    </span>
                                                 </div>
-                                                <span className="text-[10px] sm:text-xs font-mono text-gray-400 group-hover/item:text-white text-center tracking-wider leading-tight">
-                                                    {skill.name}
-                                                </span>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </div>

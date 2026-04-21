@@ -48,7 +48,10 @@ export const Certifications = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: idx * 0.1 }}
                         >
-                            <div className={`glass p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-white/5 hover:border-neon-blue/20 flex items-start gap-3 sm:gap-4 group transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]`}>
+                            <div
+                                className={`glass p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-white/5 hover:border-neon-blue/20 flex items-start gap-3 sm:gap-4 group transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]`}
+                                {...(idx === 0 ? { 'data-secret': '464c41477b316e7370336374307235f67346467337437d' } : {})}
+                            >
                                 <div className={`mt-0.5 sm:mt-1 flex-shrink-0 text-neon-blue`}>
                                     <FaCertificate size={16} className="sm:text-[18px]" />
                                 </div>

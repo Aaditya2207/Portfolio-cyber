@@ -23,8 +23,8 @@ const BANNER_LINES: Line[] = [
     { type: "info", text: " ──────────────────────────────────────────────" },
     { type: "info", text: "  COMMAND          DESCRIPTION" },
     { type: "info", text: "  help             Show available commands" },
-    { type: "info", text: "  hint <1-5>       Get a challenge hint" },
-    { type: "info", text: "  solve <1-5>      Reveal the solution" },
+    { type: "info", text: "  hint <1-8>       Get a challenge hint" },
+    { type: "info", text: "  solve <1-8>      Reveal the solution" },
     { type: "info", text: " ──────────────────────────────────────────────" },
 ];
 
@@ -104,9 +104,10 @@ export const CTFTerminal = () => {
                     ["ls flags", "List all flags (captured/pending)"],
                     ["progress", "Show score and completion"],
                     ["decode <b64>", "Decode a base64 string"],
+                    ["hexdecode <hex>", "Decode a hex string to ASCII"],
                     ["rot13 <text>", "Apply ROT13 cipher"],
-                    ["hint <1-5>", "Get a hint for challenge N"],
-                    ["solve <1-5>", "░░ DIRECT SOLVE — bypass and reveal flag"],
+                    ["hint <1-8>", "Get a hint for challenge N"],
+                    ["solve <1-8>", "░░ DIRECT SOLVE — bypass and reveal flag"],
                     ["submit <FLAG{}>", "Submit a captured flag"],
                     ["clear", "Clear terminal"],
                 ].forEach(([c, d]) => {
@@ -119,7 +120,7 @@ export const CTFTerminal = () => {
                 push({ type: "info", text: "" });
                 push({ type: "info", text: "  alias    : /unknown/" });
                 push({ type: "info", text: "  role     : Intruder" });
-                push({ type: "info", text: `  flags    : ${capturedFlags.length}/5` });
+                push({ type: "info", text: `  flags    : ${capturedFlags.length}/${CHALLENGES.length}` });
                 push({ type: "info", text: `  score    : ${totalPoints} pts` });
                 push({ type: "info", text: "  target   : aadityak22.dev" });
                 push({ type: "info", text: "" });
@@ -127,7 +128,7 @@ export const CTFTerminal = () => {
 
             case "progress":
                 push({ type: "info", text: "" });
-                push({ type: "info", text: `  Score  : ${totalPoints} / 1000 pts` });
+                push({ type: "info", text: `  Score  : ${totalPoints} / 1950 pts` });
                 push({ type: "info", text: `  Flags  : ${capturedFlags.length} / ${CHALLENGES.length}` });
                 push({ type: "info", text: "" });
                 CHALLENGES.forEach(c => {
@@ -166,6 +167,24 @@ export const CTFTerminal = () => {
                 }
                 break;
 
+            case "hexdecode": {
+                if (!originalArgs) {
+                    push({ type: "error", text: "  Usage: hexdecode <hex_string>" });
+                } else {
+                    try {
+                        const hex = originalArgs.replace(/\s/g, "");
+                        let result = "";
+                        for (let i = 0; i < hex.length; i += 2) {
+                            result += String.fromCharCode(parseInt(hex.substring(i, i + 2), 16));
+                        }
+                        push({ type: "success", text: `  ${result}` });
+                    } catch {
+                        push({ type: "error", text: "  [ERROR] Invalid hex string." });
+                    }
+                }
+                break;
+            }
+
             case "rot13":
                 if (!originalArgs) {
                     push({ type: "error", text: "  Usage: rot13 <text>" });
@@ -178,7 +197,7 @@ export const CTFTerminal = () => {
                 const idx = parseInt(args[0]) - 1;
                 const challenge = CHALLENGES[idx];
                 if (!challenge) {
-                    push({ type: "error", text: "  Usage: hint <1-5>" });
+                    push({ type: "error", text: "  Usage: hint <1-8>" });
                     break;
                 }
                 push({ type: "info", text: "" });
@@ -195,7 +214,7 @@ export const CTFTerminal = () => {
                 const idx = parseInt(args[0]) - 1;
                 const challenge = CHALLENGES[idx];
                 if (!challenge) {
-                    push({ type: "error", text: "  Usage: solve <1-5>" });
+                    push({ type: "error", text: "  Usage: solve <1-8>" });
                     break;
                 }
                 push({ type: "info", text: "" });

@@ -83,6 +83,48 @@ export const CHALLENGES: CTFChallenge[] = [
             "Hint 3/3: Submit the form with email: ctf@solve.me"
         ],
         solve: "1. Go to the Contact section.\n2. Fill in any name and message.\n3. Use exactly this email: ctf@solve.me\n4. Click Send Message — the flag is captured automatically."
+    },
+    {
+        id: 6,
+        name: "Persistence: Skill Check",
+        category: "Web Exploitation",
+        description: "True hackers are relentless. In the Skills section, the 'Pen Testing' tile is watching how many times you click it. Five clicks unlocks the flag.",
+        flag: "FLAG{sk1lls_4_d4yz}",
+        points: 200,
+        hints: [
+            "Hint 1/3: Visit the Skills / What I Work With section.",
+            "Hint 2/3: Find the 'Pen Testing' tile.",
+            "Hint 3/3: Click 'Pen Testing' exactly 5 times rapidly."
+        ],
+        solve: "1. Scroll to the Skills section ('What I Work With').\n2. Find the 'Pen Testing' tile under Offensive Security.\n3. Click it 5 times.\n4. The flag is captured automatically."
+    },
+    {
+        id: 7,
+        name: "Forensics: Inspector Gadget",
+        category: "Digital Forensics",
+        description: "The Certifications section hides more than it shows. A hex-encoded secret is embedded in the page's DOM — only DevTools can reveal it.",
+        flag: "FLAG{1nsp3ct0r_g4dg3t}",
+        points: 350,
+        hints: [
+            "Hint 1/3: Go to the Certifications section.",
+            "Hint 2/3: Open DevTools (F12) and inspect one of the certification cards.",
+            "Hint 3/3: Look for a data-secret attribute. Decode the hex value using: decode <hex> — wait, it's hex not base64. The value itself IS the flag."
+        ],
+        solve: "1. Go to the Certifications section.\n2. Open DevTools → Elements (F12).\n3. Inspect the first certification card element.\n4. Find the attribute: data-secret=\"464c41477b316e7370336374307235f67346467337437d\"\n5. Decode: hex → ASCII gives FLAG{1nsp3ct0r_g4dg3t}\n6. Run: submit FLAG{1nsp3ct0r_g4dg3t}"
+    },
+    {
+        id: 8,
+        name: "Recon: The Sequence",
+        category: "Reconnaissance",
+        description: "Methodology matters. In the pentesting methodology section, hover each phase card in the exact order they appear (01 → 05) without leaving the section. Demonstrate you know the process.",
+        flag: "FLAG{m3th0d_m4st3r}",
+        points: 400,
+        hints: [
+            "Hint 1/3: Visit the 'How I Approach Work' section (Methodology).",
+            "Hint 2/3: You need to hover each of the five phase cards in order from 01 to 05.",
+            "Hint 3/3: Hover over each card sequentially — 01, 02, 03, 04, 05 — without skipping. The flag captures when the sequence is complete."
+        ],
+        solve: "1. Scroll to the Methodology section ('How I Approach Work').\n2. Hover over step 01 (Reconnaissance) card.\n3. Then hover 02, 03, 04, 05 in sequence.\n4. The flag is captured automatically when 05 is hovered last."
     }
 ];
 

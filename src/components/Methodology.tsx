@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { useCTF } from "@/contexts/CTFContext";
 
 const STEPS = [
     {
@@ -32,6 +33,36 @@ const STEPS = [
 ];
 
 export const Methodology = () => {
+    const { captureFlag, isCaptured } = useCTF();
+    const flag8 = "FLAG{m3th0d_m4st3r}";
+    const hoveredSequence = useRef<number[]>([]);
+    const [seqProgress, setSeqProgress] = useState(0);
+    const seqTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const handleStepHover = (stepIndex: number) => {
+        if (isCaptured(flag8)) return;
+        const expected = hoveredSequence.current.length;
+        if (stepIndex === expected) {
+            hoveredSequence.current.push(stepIndex);
+            setSeqProgress(hoveredSequence.current.length);
+            if (seqTimer.current) clearTimeout(seqTimer.current);
+            if (hoveredSequence.current.length === STEPS.length) {
+                captureFlag(flag8);
+                hoveredSequence.current = [];
+                setSeqProgress(0);
+            } else {
+                seqTimer.current = setTimeout(() => {
+                    hoveredSequence.current = [];
+                    setSeqProgress(0);
+                }, 4000);
+            }
+        } else if (stepIndex !== expected - 1) {
+            // Wrong order — reset
+            hoveredSequence.current = [];
+            setSeqProgress(0);
+        }
+    };
+
     return (
         <section className="py-20 sm:py-24 md:py-32 relative z-10 w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -62,7 +93,11 @@ export const Methodology = () => {
                             transition={{ duration: 0.6, delay: idx * 0.1 }}
                             className="h-full"
                         >
-                            <div className="h-full glass rounded-2xl p-5 sm:p-6 border border-white/5 flex flex-col group hover:border-neon-blue/40 transition-all duration-500 hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(0,240,255,0.08)] relative overflow-hidden">
+                            <div
+                                onMouseEnter={() => handleStepHover(idx)}
+                                className={`h-full glass rounded-2xl p-5 sm:p-6 border flex flex-col group transition-all duration-500 hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-[0_8px_30px_rgba(0,240,255,0.08)] relative overflow-hidden
+                                    ${isCaptured(flag8) ? 'border-neon-blue/30' : idx < seqProgress ? 'border-neon-blue/20' : 'border-white/5 hover:border-neon-blue/40'}
+                                `}>
                                 <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/0 to-neon-indigo/0 group-hover:from-neon-blue/5 group-hover:to-neon-indigo/10 transition-colors duration-500 blur-xl z-0"></div>
                                 
                                 <div className="relative z-10">
@@ -71,7 +106,7 @@ export const Methodology = () => {
                                             {step.id}
                                         </span>
                                         <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-neon-blue/50 group-hover:bg-neon-blue/10 transition-colors duration-500">
-                                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-gray-600 group-hover:bg-neon-blue transition-colors duration-500 group-hover:shadow-[0_0_8px_rgba(0,240,255,0.8)]"></div>
+                                            <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-colors duration-500 group-hover:shadow-[0_0_8px_rgba(0,240,255,0.8)] ${idx < seqProgress || isCaptured(flag8) ? 'bg-neon-blue shadow-[0_0_6px_rgba(0,240,255,0.6)]' : 'bg-gray-600 group-hover:bg-neon-blue'}`}></div>
                                         </div>
                                     </div>
                                     
