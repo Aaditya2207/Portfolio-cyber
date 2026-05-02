@@ -82,7 +82,7 @@ export const Contact = () => {
                         Say <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-neon-indigo">Hello</span>
                     </h2>
                     <p className="text-gray-400 text-sm sm:text-base leading-relaxed max-w-md">
-                        Whether you have a project in mind, want to talk security, or just want to say hi — I&apos;m always happy to chat.
+                        Whether you have a project in mind, want to talk security, or just want to say hi I&apos;m always happy to chat.
                     </p>
                     <p
                         className="mt-3 font-mono text-[9px] sm:text-[10px] text-gray-700 hover:text-gray-500 transition-colors cursor-default tracking-wider"
@@ -411,11 +411,10 @@ export const Contact = () => {
                                     suppressHydrationWarning
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
-                                    className={`w-full bg-dark-bg/80 border rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 transition-colors ${
-                                        isCaptured(flag5)
+                                    className={`w-full bg-dark-bg/80 border rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-white placeholder:text-gray-600 focus:outline-none focus:ring-1 transition-colors ${isCaptured(flag5)
                                             ? "border-neon-blue/50 focus:border-neon-blue focus:ring-neon-blue/30 shadow-[0_0_10px_rgba(0,240,255,0.1)]"
                                             : "border-white/10 focus:border-neon-blue/60 focus:ring-neon-blue/30"
-                                    }`}
+                                        }`}
                                     placeholder="your@email.com"
                                 />
                             </div>
