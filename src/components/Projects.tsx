@@ -13,7 +13,7 @@ const PROJECTS = [
         links: { github: "" },
         gradient: "from-neon-cyan/20 to-neon-blue/20",
         borderGlow: "group-hover:border-neon-cyan/50 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.12)]",
-        iconText: "GUARD",
+        iconText: "PG",
         hasChallenge: false,
     },
     {
