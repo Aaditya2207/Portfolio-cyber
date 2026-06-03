@@ -7,6 +7,16 @@ import { useCTF } from "@/contexts/CTFContext";
 
 const PROJECTS = [
     {
+        title: "PackageGuard Scanner",
+        description: "A full-stack security application that analyzes GitHub repositories and packages for vulnerabilities. It features a modern React-based dashboard and a Node.js backend for deep dependency analysis.",
+        tags: ["TypeScript", "React", "Node.js", "Security"],
+        links: { github: "" },
+        gradient: "from-neon-cyan/20 to-neon-blue/20",
+        borderGlow: "group-hover:border-neon-cyan/50 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.12)]",
+        iconText: "GUARD",
+        hasChallenge: false,
+    },
+    {
         title: "Zero Trust Network Access Simulator",
         description: "Built this to actually understand how ZTNA policy decisions work — device posture checks, identity context, behavioral analytics. It's a practical learning tool that turned into a proper project.",
         tags: ["Python", "Flask", "Cryptography", "Network Auth"],
