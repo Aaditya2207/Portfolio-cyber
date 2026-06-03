@@ -89,7 +89,7 @@ export const Hero = () => {
                                     variant="outline"
                                     colorTheme="blue"
                                     className="px-4 py-2.5 sm:px-6 sm:py-3"
-                                    onClick={() => window.open('/Cyber Resume main.pdf', '_blank')}
+                                    onClick={() => window.open('/AADITYA_DemandBase.pdf', '_blank')}
                                 >
                                     <span className="font-mono tracking-wider text-xs sm:text-sm whitespace-nowrap">Download CV</span>
                                 </Button>

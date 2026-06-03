@@ -336,61 +336,61 @@ export const CTFTerminal = () => {
                                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 className="w-full max-w-4xl h-[70vh] sm:h-[75vh] bg-[#030305]/95 backdrop-blur-xl border border-neon-blue/30 rounded-xl shadow-[0_10px_70px_rgba(0,240,255,0.15)] flex flex-col overflow-hidden pointer-events-auto"
                             >
-                            {/* Title Bar */}
-                            <div className="flex items-center justify-between px-4 sm:px-6 py-2 sm:py-3 border-b border-white/5 bg-white/[0.02] flex-shrink-0">
-                                <div className="flex items-center gap-2 sm:gap-3">
-                                    <div className="flex gap-1.5">
-                                        <span className="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
-                                        <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70"></span>
-                                        <span className="w-2.5 h-2.5 rounded-full bg-green-500/70"></span>
+                                {/* Title Bar */}
+                                <div className="flex items-center justify-between px-4 sm:px-6 py-2 sm:py-3 border-b border-white/5 bg-white/[0.02] flex-shrink-0">
+                                    <div className="flex items-center gap-2 sm:gap-3">
+                                        <div className="flex gap-1.5">
+                                            <span className="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+                                            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70"></span>
+                                            <span className="w-2.5 h-2.5 rounded-full bg-green-500/70"></span>
+                                        </div>
+                                        <span className="font-mono text-[10px] sm:text-xs text-gray-500 tracking-widest">
+                                            ctf@portfolio:~
+                                        </span>
                                     </div>
-                                    <span className="font-mono text-[10px] sm:text-xs text-gray-500 tracking-widest">
-                                        ctf@portfolio:~
-                                    </span>
+                                    <div className="flex items-center gap-3 sm:gap-4">
+                                        <span className="font-mono text-[10px] sm:text-xs text-neon-blue tracking-wider">
+                                            FLAGS: {capturedFlags.length}/{CHALLENGES.length}  [{totalPoints}pts]
+                                        </span>
+                                        <button onClick={() => setTerminalOpen(false)} className="text-gray-600 hover:text-white font-mono text-xs">
+                                            ✕
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-3 sm:gap-4">
-                                    <span className="font-mono text-[10px] sm:text-xs text-neon-blue tracking-wider">
-                                        FLAGS: {capturedFlags.length}/{CHALLENGES.length}  [{totalPoints}pts]
-                                    </span>
-                                    <button onClick={() => setTerminalOpen(false)} className="text-gray-600 hover:text-white font-mono text-xs">
-                                        ✕
+
+                                {/* Output */}
+                                <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-3 sm:py-4 space-y-0 font-mono text-[10px] sm:text-[11.5px] scroll-smooth">
+                                    {lines.map((line, i) => (
+                                        <div key={i} className={`leading-snug whitespace-pre sm:whitespace-pre-wrap ${lineColors[line.type]}`}>
+                                            {line.text}
+                                        </div>
+                                    ))}
+                                    <div ref={bottomRef} />
+                                </div>
+
+                                {/* Input */}
+                                <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 border-t border-white/5 flex-shrink-0 bg-white/[0.01]">
+                                    <span className="text-neon-blue font-mono text-[10px] sm:text-xs flex-shrink-0">$</span>
+                                    <input
+                                        ref={inputRef}
+                                        value={input}
+                                        onChange={e => setInput(e.target.value)}
+                                        onKeyDown={handleKeyDown}
+                                        className="flex-1 bg-transparent text-white font-mono text-[10px] sm:text-xs outline-none placeholder:text-gray-700 caret-neon-blue"
+                                        placeholder="type a command..."
+                                        autoComplete="off"
+                                        autoCorrect="off"
+                                        autoCapitalize="off"
+                                        spellCheck={false}
+                                    />
+                                    <button
+                                        onClick={() => { executeCommand(input); setInput(""); }}
+                                        className="text-gray-600 hover:text-neon-blue font-mono text-[10px] sm:text-xs flex-shrink-0 transition-colors"
+                                    >
+                                        [↵]
                                     </button>
                                 </div>
-                            </div>
-
-                            {/* Output */}
-                            <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-3 sm:py-4 space-y-0 font-mono text-[10px] sm:text-[11.5px] scroll-smooth">
-                                {lines.map((line, i) => (
-                                    <div key={i} className={`leading-snug whitespace-pre sm:whitespace-pre-wrap ${lineColors[line.type]}`}>
-                                        {line.text}
-                                    </div>
-                                ))}
-                                <div ref={bottomRef} />
-                            </div>
-
-                            {/* Input */}
-                            <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 border-t border-white/5 flex-shrink-0 bg-white/[0.01]">
-                                <span className="text-neon-blue font-mono text-[10px] sm:text-xs flex-shrink-0">$</span>
-                                <input
-                                    ref={inputRef}
-                                    value={input}
-                                    onChange={e => setInput(e.target.value)}
-                                    onKeyDown={handleKeyDown}
-                                    className="flex-1 bg-transparent text-white font-mono text-[10px] sm:text-xs outline-none placeholder:text-gray-700 caret-neon-blue"
-                                    placeholder="type a command..."
-                                    autoComplete="off"
-                                    autoCorrect="off"
-                                    autoCapitalize="off"
-                                    spellCheck={false}
-                                />
-                                <button
-                                    onClick={() => { executeCommand(input); setInput(""); }}
-                                    className="text-gray-600 hover:text-neon-blue font-mono text-[10px] sm:text-xs flex-shrink-0 transition-colors"
-                                >
-                                    [↵]
-                                </button>
-                            </div>
-                        </motion.div>
+                            </motion.div>
                         </div>
                     </>
                 )}
