@@ -4,10 +4,11 @@ import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useCTF } from "@/contexts/CTFContext";
 import {
-    FaPython, FaRust, FaJs, FaNetworkWired, FaServer,
-    FaLinux, FaAws, FaShieldAlt, FaTerminal, FaCodeBranch
+    FaPython, FaNetworkWired, FaServer,
+    FaLinux, FaAws, FaShieldAlt, FaTerminal,
+    FaDocker, FaCloud, FaLock
 } from "react-icons/fa";
-import { SiKalilinux, SiWireshark, SiMetasploit, SiBurpsuite } from "react-icons/si";
+import { SiKalilinux, SiWireshark, SiMetasploit, SiBurpsuite, SiCisco } from "react-icons/si";
 
 const SKILL_CATEGORIES = [
     {
@@ -22,23 +23,29 @@ const SKILL_CATEGORIES = [
         ],
     },
     {
-        title: "Network & Systems",
+        title: "Network Security",
         icon: <FaNetworkWired className="text-neon-indigo" />,
         colSpan: "md:col-span-1",
         skills: [
             { name: "Traffic Analysis", icon: <SiWireshark /> },
-            { name: "Net Forensics", icon: <FaNetworkWired /> },
+            { name: "Cisco Networking", icon: <SiCisco /> },
+            { name: "Firewall / IDS", icon: <FaShieldAlt /> },
             { name: "Linux / Unix", icon: <FaLinux /> },
+            { name: "VPN & Tunneling", icon: <FaLock /> },
             { name: "Active Directory", icon: <FaServer /> },
         ],
     },
     {
-        title: "Development & Cloud",
-        icon: <FaCodeBranch className="text-white" />,
+        title: "Cloud Fundamentals",
+        icon: <FaCloud className="text-neon-blue" />,
         colSpan: "md:col-span-3",
         skills: [
+            { name: "AWS IAM", icon: <FaAws /> },
+            { name: "S3 Security", icon: <FaLock /> },
+            { name: "VPC & Sec Groups", icon: <FaNetworkWired /> },
+            { name: "Shared Resp. Model", icon: <FaShieldAlt /> },
+            { name: "Docker Basics", icon: <FaDocker /> },
             { name: "Python Scripting", icon: <FaPython /> },
-            { name: "JavaScript / Node", icon: <FaJs /> },
         ],
     },
 ];

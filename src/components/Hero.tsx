@@ -5,7 +5,7 @@ import { motion, Variants } from "framer-motion";
 import { Button } from "./ui/Button";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
-const words = ["Cybersecurity Analyst", "Penetration Tester", "CTF Player"];
+const words = ["Network Security Learner", "Cloud Security Enthusiast", "Aspiring SOC Analyst", "Ethical Hacker"];
 
 export const Hero = () => {
     const [text, setText] = useState("");
@@ -72,7 +72,7 @@ export const Hero = () => {
                         </motion.div>
 
                         <motion.p variants={itemVariants} className="max-w-xl text-gray-400 text-base sm:text-lg font-light leading-relaxed">
-                            I&apos;m a 3rd-year CS student who genuinely loves breaking things apart to understand how they work — and then figuring out how to make them harder to break. Currently diving deep into pen testing, CTFs, and anything security-related.
+                            I&apos;m a 4th-year CS student fascinated by how networks breathe and how clouds are secured. I spend my time dissecting network protocols, hardening cloud infrastructure, and exploring how defenders think because understanding the attack surface is the first step to locking it down.
                         </motion.p>
 
                         <motion.div variants={itemVariants} className="flex flex-col xs:flex-row flex-wrap items-start xs:items-center gap-4 sm:gap-6 pt-2 sm:pt-4 w-full">
@@ -89,7 +89,7 @@ export const Hero = () => {
                                     variant="outline"
                                     colorTheme="blue"
                                     className="px-4 py-2.5 sm:px-6 sm:py-3"
-                                    onClick={() => window.open('/AADITYA_DemandBase.pdf', '_blank')}
+                                    onClick={() => window.open('/AADITYA_ResumeMain.pdf', '_blank')}
                                 >
                                     <span className="font-mono tracking-wider text-xs sm:text-sm whitespace-nowrap">Download CV</span>
                                 </Button>

@@ -40,10 +40,10 @@ export const About = () => {
                         className="lg:col-span-7 space-y-5 sm:space-y-6 md:space-y-8 text-gray-400 text-base sm:text-lg leading-[1.8] font-light"
                     >
                         <p>
-                            I&apos;m Aaditya, a 3rd-year Computer Science student at Chitkara University specializing in cybersecurity. It started with basic networking labs in first year and quickly turned into CTFs, bug bounties, and spending way too many late nights reading CVE disclosures.
+                            I&apos;m Aaditya, a 4th-year Computer Science student at Chitkara University specializing in cybersecurity. It started with basic networking labs in first year and quickly turned into CTFs, bug bounties, and spending way too many late nights reading CVE disclosures.
                         </p>
                         <p>
-                            Right now, I&apos;m focused on <span className="text-neon-blue font-medium">penetration testing</span> and network security, actively practising on platforms like HackTheBox and TryHackMe while working on tools that solve real problems. I believe the best way to learn security is to actually try to break stuff — ethically, of course.
+                            Right now, I&apos;m focused on <span className="text-neon-blue font-medium">Cloud Security</span> and network security, actively practising on platforms like HackTheBox and TryHackMe while working on tools that solve real problems. I believe the best way to learn security is to actually try to break stuff — ethically, of course.
                         </p>
                         <p>
                             Outside of that, I write about things I&apos;ve learned, contribute to open source projects, and I&apos;m actively looking for internship opportunities where I can apply what I know and grow alongside people who really know their stuff.
@@ -133,7 +133,7 @@ export const About = () => {
                                 <li className="flex flex-col gap-1 pt-3 sm:pt-4 border-t border-white/5">
                                     <span className="text-gray-500 tracking-wider mb-1 text-xs">INTERESTS</span>
                                     <span className="text-gray-300 leading-relaxed text-xs sm:text-sm">
-                                        Pen Testing, CTFs, Bug Bounty, Malware Analysis, VAPT
+                                        Pen Testing, CTFs, Bug Bounty, Cloud Security, VAPT
                                     </span>
                                 </li>
                             </ul>
