@@ -1,9 +1,17 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export const AmbientBackground = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const { isLight } = useTheme();
+    // Use a ref so the animation loop always reads the latest value without restart
+    const isLightRef = useRef(isLight);
+
+    useEffect(() => {
+        isLightRef.current = isLight;
+    }, [isLight]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -52,18 +60,13 @@ export const AmbientBackground = () => {
             size: number;
             speedX: number;
             speedY: number;
-            color: string;
 
             constructor() {
                 this.x = Math.random() * canvas!.width;
                 this.y = Math.random() * canvas!.height;
-                this.size = Math.random() * 1.5 + 0.5; // Very subtle dots
-                this.speedX = (Math.random() - 0.5) * 0.4; // Extremely slow, graceful movement
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
                 this.speedY = (Math.random() - 0.5) * 0.4;
-                
-                // Cyan and subtle white/grey tones to keep it clean
-                const colors = ['rgba(5, 217, 232, 0.5)', 'rgba(5, 217, 232, 0.2)', 'rgba(238, 242, 255, 0.4)'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
             }
 
             update() {
@@ -78,7 +81,20 @@ export const AmbientBackground = () => {
 
             draw() {
                 if (!ctx) return;
-                ctx.fillStyle = this.color;
+                // Adapt color based on current theme
+                if (isLightRef.current) {
+                    // Light mode: soft cyan/blue particles at 15% opacity
+                    const colors = [
+                        'rgba(6, 182, 212, 0.12)',
+                        'rgba(59, 130, 246, 0.09)',
+                        'rgba(6, 182, 212, 0.08)',
+                    ];
+                    ctx.fillStyle = colors[Math.floor(this.x * 3 / canvas!.width)];
+                } else {
+                    // Dark mode: original colors
+                    const colors = ['rgba(5, 217, 232, 0.5)', 'rgba(5, 217, 232, 0.2)', 'rgba(238, 242, 255, 0.4)'];
+                    ctx.fillStyle = colors[Math.floor(this.x * 3 / canvas!.width)];
+                }
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -101,7 +117,13 @@ export const AmbientBackground = () => {
 
                     if (distance < connectionDistance) {
                         const opacity = 1 - distance / connectionDistance;
-                        ctx.strokeStyle = `rgba(5, 217, 232, ${opacity * 0.12})`; // Very faint cyan connections
+                        if (isLightRef.current) {
+                            // Light mode: soft cyan connections at very low opacity
+                            ctx.strokeStyle = `rgba(6, 182, 212, ${opacity * 0.07})`;
+                        } else {
+                            // Dark mode: original very faint cyan connections
+                            ctx.strokeStyle = `rgba(5, 217, 232, ${opacity * 0.12})`;
+                        }
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(particles[a].x, particles[a].y);
@@ -118,8 +140,13 @@ export const AmbientBackground = () => {
 
                     if (distanceMouse < mouseConnectionDistance) {
                         const opacity = 1 - distanceMouse / mouseConnectionDistance;
-                        // Elegant vibrant magenta connection to the cursor
-                        ctx.strokeStyle = `rgba(255, 42, 109, ${opacity * 0.25})`; 
+                        if (isLightRef.current) {
+                            // Light mode: soft blue mouse connections
+                            ctx.strokeStyle = `rgba(59, 130, 246, ${opacity * 0.18})`;
+                        } else {
+                            // Dark mode: original magenta connection
+                            ctx.strokeStyle = `rgba(255, 42, 109, ${opacity * 0.25})`;
+                        }
                         ctx.lineWidth = 0.8;
                         ctx.beginPath();
                         ctx.moveTo(particles[a].x, particles[a].y);
@@ -154,18 +181,55 @@ export const AmbientBackground = () => {
             window.removeEventListener("mouseleave", handleMouseLeave);
             cancelAnimationFrame(animationFrameId);
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div className="fixed inset-0 overflow-hidden pointer-events-none -z-20 bg-dark-bg">
-            <div className="absolute inset-0 bg-gradient-to-b from-dark-bg via-dark-bg/95 to-dark-surface opacity-90" />
+        <div
+            className="ambient-bg-wrapper fixed inset-0 overflow-hidden pointer-events-none -z-20"
+            style={{
+                backgroundColor: isLight ? '#F5F7FB' : '#030305',
+                transition: 'background-color 500ms ease',
+            }}
+        >
+            {/* Gradient overlay */}
+            <div
+                className="absolute inset-0 opacity-90"
+                style={{
+                    background: isLight
+                        ? 'linear-gradient(to bottom, #F5F7FB, rgba(238,243,250,0.95), #EEF3FA)'
+                        : 'linear-gradient(to bottom, #030305, rgba(3,3,5,0.95), #0a0a0c)',
+                    transition: 'background 500ms ease',
+                }}
+            />
             
-            {/* Very faint Grid Pattern for tech feel without clutter */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_80%,transparent_100%)] opacity-30"></div>
+            {/* Grid Pattern — light or dark */}
+            <div
+                className="absolute inset-0"
+                style={{
+                    backgroundImage: isLight
+                        ? 'linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)'
+                        : 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
+                    backgroundSize: '60px 60px',
+                    maskImage: isLight
+                        ? 'radial-gradient(ellipse 60% 60% at 50% 50%, #000 70%, transparent 100%)'
+                        : 'radial-gradient(ellipse 50% 50% at 50% 50%, #000 80%, transparent 100%)',
+                    WebkitMaskImage: isLight
+                        ? 'radial-gradient(ellipse 60% 60% at 50% 50%, #000 70%, transparent 100%)'
+                        : 'radial-gradient(ellipse 50% 50% at 50% 50%, #000 80%, transparent 100%)',
+                    opacity: isLight ? 0.5 : 0.3,
+                    transition: 'opacity 500ms ease, background-image 500ms ease',
+                }}
+            />
 
             <canvas
                 ref={canvasRef}
-                className="absolute inset-0 w-full h-full opacity-90 mix-blend-screen"
+                className="absolute inset-0 w-full h-full mix-blend-normal"
+                style={{
+                    opacity: isLight ? 0.6 : 0.90,
+                    mixBlendMode: isLight ? 'multiply' : 'screen',
+                    transition: 'opacity 500ms ease',
+                }}
             />
             
             {/* Subtle Noise Texture */}
