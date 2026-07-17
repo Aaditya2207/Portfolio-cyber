@@ -12,7 +12,7 @@ const EXPERIENCES = [
         rank: "9th / 200+",
         rankLabel: "National",
         duration: "24h",
-        teamSize: "Solo",
+        teamSize: "4 members",
         description:
             "Achieved an outstanding 9th position in the offline final round of a national-level 24-hour Capture The Flag competition at KIET College campus, demonstrating advanced technical skills under high-pressure conditions.",
         cipherHint: null,

@@ -5,7 +5,6 @@ import "./globals.css";
 
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 import { CTFProvider } from "@/contexts/CTFContext";
 import { CTFTerminal } from "@/components/ui/CTFTerminal";
 import { CTFProgressHUD } from "@/components/ui/CTFProgressHUD";
@@ -93,9 +92,6 @@ export default function RootLayout({
             >
                 <ThemeProvider>
                     <CTFProvider>
-                        {/* Custom cursor — hides default cursor, shows dot + ring on desktop */}
-                        <CustomCursor />
-
                         <AmbientBackground />
                         <ScrollProgress />
                         <Navbar />

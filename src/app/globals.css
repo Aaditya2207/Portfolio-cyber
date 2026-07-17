@@ -132,11 +132,7 @@ body {
     color 400ms ease;
 }
 
-/* Hide default cursor when custom cursor is active */
-body.custom-cursor-active,
-body.custom-cursor-active * {
-  cursor: none !important;
-}
+
 
 /* ═══════════════════════════════════════════════════
    KEYFRAME ANIMATIONS
