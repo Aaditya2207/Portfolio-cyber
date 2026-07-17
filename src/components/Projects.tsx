@@ -190,7 +190,7 @@ const SpotlightCard = ({
                 )}
                 {!hasChallenge && (
                     <span className="relative z-10 text-4xl sm:text-5xl font-bold font-mono tracking-widest text-white/25 group-hover:text-white/60 transition-colors duration-500">
-                        {PROJECTS.find(p => p === children) ? "" : ""}
+
                     </span>
                 )}
             </div>
